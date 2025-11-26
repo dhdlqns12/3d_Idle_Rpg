@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 32158725508603523}
   - component: {fileID: 5676503575873651526}
   - component: {fileID: 6111024552246152943}
+  - component: {fileID: 8591058521241667111}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -201,7 +202,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 16823cb1aac10a248a118b4afff0451a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -246,8 +247,8 @@ CharacterController:
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_SkinWidth: 0.0001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6111024552246152943
 MonoBehaviour:
@@ -272,3 +273,26 @@ MonoBehaviour:
   <curTarget>k__BackingField: {fileID: 0}
   bulletPrefab: {fileID: 6140240041591601561, guid: 6035d189fbaa7a44590ec15f3b1bc128,
     type: 3}
+--- !u!136 &8591058521241667111
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2650698363676665364}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

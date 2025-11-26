@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MaxHP>k__BackingField: 100
   <BaseSpd>k__BackingField: 5
-  <BaseAtk>k__BackingField: 10
+  <BaseAtk>k__BackingField: 15
   <BaseAtkSpd>k__BackingField: 1
   <BaseGetGoldRate>k__BackingField: 100
   <AttackRange>k__BackingField: 10

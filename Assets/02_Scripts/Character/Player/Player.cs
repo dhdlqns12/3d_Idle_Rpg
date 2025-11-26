@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     [field: SerializeField] public PlayerSO Data { get; private set; }
 
@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     [Header("총알 프리팹(임시)")]
     public GameObject bulletPrefab;
 
+    private float maxHP;
+    private float curHP;
+
     public void ToMoveState() => stateMachine.ChangeState(moveState);
     public void ToAttackState() => stateMachine.ChangeState(attackState);
 
@@ -28,6 +31,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         Controller = GetComponent<CharacterController>();
+        maxHP = Data.MaxHP;
+        curHP = maxHP;
         fireTransform = transform;
     }
 
@@ -48,5 +53,32 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.OnStatePhysicsUpdate();
+    }
+
+    private bool IsDead()
+    {
+        return curHP <= 0;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (IsDead()) return;
+
+        curHP -= damage;
+        curHP = Mathf.Max(curHP, 0);
+
+        Debug.Log($"피격HP: {curHP}/{maxHP} (-{damage})");
+
+        if (IsDead())
+        {
+            Die();
+        }
+    }
+
+    private void Die() // 추 후 GameManager로 옮기기
+    {
+        Debug.Log("플레이어 사망!");
+        // TODO: 게임 오버
+        Application.Quit();
     }
 }

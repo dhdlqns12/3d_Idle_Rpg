@@ -10,10 +10,10 @@ public class PlayerStateMachine : StateMachine
     public float BaseAttackRange { get; private set; }
     public float BaseDetectionRange { get; private set; }
 
-    public float UpgradePlayerMaxHP { get; set; }
-    public float UpgradedMovementSpd { get; set; }
-    public float UpgradedAtk { get; set; }
-    public float UpgradedAtkSpd { get; set; }
+    public float UpgradePlayerMaxHP;
+    public float UpgradedMovementSpd;
+    public float UpgradedAtk;
+    public float UpgradedAtkSpd;
 
     public float TotalMaxHP => BasePlayerMaxHP + UpgradePlayerMaxHP;
     public float TotalMovementSpd => BaseMovementSpd + UpgradedMovementSpd;

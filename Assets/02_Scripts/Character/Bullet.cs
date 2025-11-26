@@ -1,21 +1,25 @@
 using UnityEngine;
+using System;
 
 public class Bullet : MonoBehaviour
 {
+
+    [Header("발사자 태그 (자동 설정)")]
+    private Type ownerType;  // 적끼리는 서로 쏜 총알 맞지 않게
+
     private float speed;
     private float lifeTime;
 
-    private Player player; // 데미지 계산 위해 플레이어 참조
-    private float fixedDamage; // 발사 된 시점에 데미지 고정하기 위해
+    private float damage; // 발사 된 시점에 데미지 고정하기 위해
     private Vector3 direction;
     private float timer;
 
-    public void Init(Vector3 startPosition, Vector3 targetDirection, float _damage,Player _player)
+    public void Init(Vector3 startPosition, Vector3 targetDirection, float _damage, Type _ownerType)
     {
-        player = _player;
         transform.position = startPosition;
         direction = targetDirection.normalized;
-        fixedDamage = _damage;
+        damage = _damage;
+        ownerType = _ownerType;
         timer = 0f;
     }
 
@@ -39,15 +43,17 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Enemy enemy = other.GetComponent<Enemy>();
-
-        if (enemy != null)
+        if (ownerType != null && other.GetComponent(ownerType) != null)
         {
-            float damage = player.stateMachine.TotalAtk;
-            Debug.Log($"적중 {other.name} {damage} damage!");
+            return;
+        }
 
-            enemy.TakeDamage(damage);
+        IDamageable damageable = other.GetComponent<IDamageable>();
 
+        if (damageable != null)
+        {
+            // 발사 시점 데미지 사용
+            damageable.TakeDamage(damage);
             Destroy(gameObject);
         }
     }
