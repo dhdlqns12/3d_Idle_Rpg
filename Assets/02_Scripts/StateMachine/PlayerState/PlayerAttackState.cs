@@ -38,8 +38,12 @@ public class PlayerAttackState : PlayerBaseState
 
         if (attackTimer >= attackSpd)
         {
-            Fire(target);
-            attackTimer = 0f;
+            if (target != null)
+            {
+                Fire(target);
+                attackTimer = 0f;
+            }
+            return;
         }
     }
 
@@ -76,7 +80,7 @@ public class PlayerAttackState : PlayerBaseState
 
             float curDamage = stateMachine.TotalAtk;
 
-            bullet.Init(stateMachine.Player.fireTransform.position, direction, curDamage);
+            bullet.Init(stateMachine.Player.fireTransform.position, direction, curDamage,stateMachine.Player);
 
             Debug.Log($"총알 발사 Damage: {curDamage}");
         }

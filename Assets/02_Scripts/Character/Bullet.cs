@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -12,20 +10,16 @@ public class Bullet : MonoBehaviour
     private Vector3 direction;
     private float timer;
 
-    public void Init(Vector3 startPosition, Vector3 targetDirection, float _damage)
+    public void Init(Vector3 startPosition, Vector3 targetDirection, float _damage,Player _player)
     {
+        player = _player;
         transform.position = startPosition;
         direction = targetDirection.normalized;
         fixedDamage = _damage;
         timer = 0f;
     }
 
-    private void Start()
-    {
-        lifeTime = Define.BULLET_LIFETIME;
-    }
-
-    private void Reset()
+    private void Awake()
     {
         speed = Define.BULLET_SPEED;
         lifeTime = Define.BULLET_LIFETIME;

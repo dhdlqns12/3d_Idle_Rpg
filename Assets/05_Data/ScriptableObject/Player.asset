@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   <MaxHP>k__BackingField: 100
-  <BaseSpd>k__BackingField: 3
+  <BaseSpd>k__BackingField: 5
   <BaseAtk>k__BackingField: 10
   <BaseAtkSpd>k__BackingField: 1
   <BaseGetGoldRate>k__BackingField: 100

@@ -46,6 +46,7 @@ public class PlayerMoveState : PlayerBaseState
         Debug.Log("이동 상태 종료");
     }
 
+    #region 이동
     private void Move()
     {
         Vector3 movementDirection = GetMovementDirection();
@@ -97,7 +98,9 @@ public class PlayerMoveState : PlayerBaseState
             stateMachine.Player.ClearTarget();
         }
     }
+    #endregion
 
+    #region 적 탐색
     private Transform FindNearEnemy()
     {
         Vector3 playerPos = stateMachine.Player.transform.position;
@@ -113,7 +116,11 @@ public class PlayerMoveState : PlayerBaseState
         {
             Collider enemyCollider = enemyBuffer[i];
 
+            if (enemyCollider == null) continue;
             if (!enemyCollider.gameObject.activeSelf) continue;
+
+            Transform enemyTransform = enemyCollider.transform;
+            if (enemyTransform == null) continue;
 
             float distance = Vector3.Distance(playerPos, enemyCollider.transform.position);
 
@@ -130,6 +137,8 @@ public class PlayerMoveState : PlayerBaseState
 
         foreach (var enemy in enemies)
         {
+            if (enemy.transform == null) continue;
+
             Vector3 direction = (enemy.transform.position - playerPos).normalized;
 
             if (Physics.Raycast(playerPos, direction, out RaycastHit hit, enemy.distance, stateMachine.Player.obstacleLayer))
@@ -145,4 +154,5 @@ public class PlayerMoveState : PlayerBaseState
         Debug.Log("모든 적이 장애물 뒤에 있음");
         return null;
     }
+    #endregion
 }

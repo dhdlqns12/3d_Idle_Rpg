@@ -8,11 +8,13 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        hp = hp - damage;
+        hp -=damage;
 
         if(hp<=0)
         {
             Destroy(gameObject);
         }
+
+        Debug.Log($"{hp}");
     }
 }
