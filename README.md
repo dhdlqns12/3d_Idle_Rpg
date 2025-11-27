@@ -76,6 +76,12 @@
 - Player,Stage,Enemy,Item을 ScriptableObject로 구현하여 데이터와 로직 분리
 - Inspector에서 직접 수정, 추가 가능한 유연한 아이템 시스템 구축
 
+### BigInteger를 활용한 NumberFormatting 및 BigInteger 직렬화
+- BigInteger를 활용하여 사실상 무한대의 골드/가격 시스템 구현
+- 큰 숫자를 K, M, B, T, aa, ab... 형식으로 변환하는 NumberFormatter 구현
+- Unity 직렬화 불가 문제를 string 래퍼 클래스(BigIntegerSerializable)로 해결
+
+
 ---
 
 ## 4. 인게임 스크린샷
