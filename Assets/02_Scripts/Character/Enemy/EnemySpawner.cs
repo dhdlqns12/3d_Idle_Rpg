@@ -42,7 +42,6 @@ public class EnemySpawner : MonoBehaviour
         Debug.Log($"EnemySpawner> 스폰 세션 ID: {currentSpawnID} (이전 스폰 무효화)");
 
         StopAllCoroutines();
-        int removedCount = 0;
 
         Debug.Log(">EnemySpawner 모든 코루틴 중단");
 

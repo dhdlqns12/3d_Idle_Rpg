@@ -17,4 +17,5 @@ MonoBehaviour:
   <BaseAtk>k__BackingField: 3
   <BaseAtkSpd>k__BackingField: 0.5
   <AttackRange>k__BackingField: 10
-  <GoldReward>k__BackingField: 100
+  goldReward:
+    value: 100

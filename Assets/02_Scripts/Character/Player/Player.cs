@@ -91,12 +91,10 @@ public class Player : MonoBehaviour, IDamageable
         if (existing != null)
         {
             existing.count += quantity;
-            Debug.Log($"인벤토리: {item.ItemName} 개수 증가 ({existing.count}개)");
         }
         else
         {
             inventory.Add(new Inventory(item, quantity));
-            Debug.Log($"인벤토리: {item.ItemName} 추가 ({quantity}개)");
         }
     }
 
@@ -106,19 +104,16 @@ public class Player : MonoBehaviour, IDamageable
 
         if (inventoryItem == null || inventoryItem.count <= 0)
         {
-            Debug.LogWarning($"아이템이 없습니다: {item.ItemName}");
             return false;
         }
 
         ApplyItemEffect(item);
 
         inventoryItem.count--;
-        Debug.Log($"아이템 사용: {item.ItemName} (남은 개수: {inventoryItem.count})");
 
         if (inventoryItem.count <= 0)
         {
             inventory.Remove(inventoryItem);
-            Debug.Log($"인벤토리: {item.ItemName} 소진");
         }
 
         return true;

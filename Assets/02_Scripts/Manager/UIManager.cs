@@ -116,7 +116,7 @@ public class UIManager : MonoBehaviour
     {
         if (goldText != null && GameManager.Instance != null)
         {
-            goldText.text = $"Gold: {GameManager.Instance.gold}";
+            goldText.text = $"Gold: {NumberFormatter.FormatGold(GameManager.Instance.gold)}";
         }
     }
 
