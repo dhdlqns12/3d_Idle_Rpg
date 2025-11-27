@@ -76,7 +76,7 @@ public class StageButton : MonoBehaviour
             }
             else if (isCleared)
             {
-                stageTxt.text = $"Stage {stageNumber}\n✓";
+                stageTxt.text = $"Stage {stageNumber}\n clear";
             }
             else
             {

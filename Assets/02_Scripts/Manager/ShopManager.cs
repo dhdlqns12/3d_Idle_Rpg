@@ -47,7 +47,7 @@ public class ShopManager : MonoBehaviour
 
         if (GameManager.Instance.gold < totalCost)
         {
-            Debug.LogWarning($"골드 부족! 필요: {totalCost}, 보유: {GameManager.Instance.gold}");
+            Debug.LogWarning($"골드 부족필요: {totalCost}, 보유: {GameManager.Instance.gold}");
             return false;
         }
 

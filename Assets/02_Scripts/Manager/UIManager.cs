@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
     [Header("Gold UI")]
     [SerializeField] private TextMeshProUGUI goldText;
 
+    [Header("Stage UI")]
+    [SerializeField] private TextMeshProUGUI stageText;
+
     [Header("Buttons")]
     [SerializeField] private Button shopButton;
     [SerializeField] private Button inventoryButton;
@@ -179,5 +182,10 @@ public class UIManager : MonoBehaviour
                 slot.Setup(invItem);
             }
         }
+    }
+
+    public void StageUIUpdate()
+    {
+        stageText.text = $"Stage: {StageManager.Instance.CurrentStageNumber}";
     }
 }

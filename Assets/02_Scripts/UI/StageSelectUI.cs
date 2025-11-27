@@ -49,8 +49,6 @@ public class StageSelectUI : MonoBehaviour
                 stageButton.Setup(i);
             }
         }
-
-        Debug.Log($">StageSelectUI {totalStages}개 스테이지 버튼 생성");
     }
 
     private void OnCloseButtonClicked()

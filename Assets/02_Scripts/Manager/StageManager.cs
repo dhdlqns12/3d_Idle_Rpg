@@ -56,57 +56,41 @@ public class StageManager : MonoBehaviour
             stageDataList.Add(data);
         }
 
-        Debug.Log($">StageManager {stages.Length}개 스테이지 초기화");
-
         // TODO: 저장된 데이터 로드
         // LoadStageProgress();
     }
 
     public void LoadStage(int stageIndex)
     {
-        Debug.Log($"[StageManager] LoadStage 호출: stageIndex={stageIndex}");
-
         if (stageIndex < 0 || stageIndex >= stages.Length)
         {
-            Debug.LogError($"[StageManager] 존재하지 않는 스테이지: {stageIndex + 1}");
             return;
         }
 
         if (!stageDataList[stageIndex].isUnlocked)
         {
-            Debug.LogWarning($"[StageManager] 스테이지 {stageIndex + 1}은(는) 아직 잠겨있습니다!");
             return;
         }
 
         currentStageIndex = stageIndex;
 
-        Debug.Log($"[StageManager] 스테이지 전환: {CurrentStageNumber}");
+        UIManager.Instance.StageUIUpdate();
 
         spawner.ClearAllEnemies();
 
         spawner.StartStage(stages[currentStageIndex]);
-
-        Debug.Log($"➡️ 스테이지 {CurrentStageNumber} 로드 완료");
     }
 
 
     public void OnStageClear()
     {
-        Debug.Log($"🎉 [StageManager] OnStageClear 호출! 현재 스테이지: {CurrentStageNumber}");
-
         stageDataList[currentStageIndex].isCleared = true;
 
         if (currentStageIndex + 1 < stages.Length)
         {
             stageDataList[currentStageIndex + 1].isUnlocked = true;
-            Debug.Log($"🔓 [StageManager] 스테이지 {currentStageIndex + 2} 해금!");
 
-            // ✅ 추가: 자동으로 다음 스테이지로 넘어가기
             NextStage();
-        }
-        else
-        {
-            Debug.Log("🎊 [StageManager] 모든 스테이지 클리어!");
         }
     }
 
@@ -124,8 +108,6 @@ public class StageManager : MonoBehaviour
 
     public void SelectStage(int stageNumber)
     {
-        Debug.Log($"[StageManager] SelectStage 호출: stageNumber={stageNumber}");
-
         int stageIndex = stageNumber - 1;
         LoadStage(stageIndex);
     }
