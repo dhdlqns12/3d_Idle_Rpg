@@ -5,7 +5,7 @@
 <img width="1090" height="610" alt="Image" src="https://github.com/user-attachments/assets/7a0fb7a9-bc2c-494c-ab37-ad997f9d3b07" />
 
 ## 1. 프로젝트 소개
-유니티에서의 데이터 관리와 UI에 대해 학습하기 위한 프로젝트입니다.
+유니티에서의 데이터 관리와 플레이어를 구현하는 방법 중 하나인 FSM에 중점을 두고 학습하기 위한 프로젝트입니다.
 
 ---
 
