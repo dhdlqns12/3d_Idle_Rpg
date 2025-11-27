@@ -21,8 +21,8 @@ public class Player : MonoBehaviour, IDamageable
     [Header("총알 프리팹(임시)")]
     public GameObject bulletPrefab;
 
-    private float maxHP;
-    private float curHP;
+    public float maxHP;
+    public float curHP;
 
     [Header("버프")]
     public List<ActiveBuff> activeBuffs = new List<ActiveBuff>();

@@ -12,6 +12,10 @@ public class UIManager : MonoBehaviour
     [Header("Stage UI")]
     [SerializeField] private TextMeshProUGUI stageText;
 
+    [Header("Player HP UI")]
+    [SerializeField] private Slider hpSlider;
+    [SerializeField] private TextMeshProUGUI hpText;
+
     [Header("Buttons")]
     [SerializeField] private Button shopButton;
     [SerializeField] private Button inventoryButton;
@@ -61,7 +65,15 @@ public class UIManager : MonoBehaviour
 
         InitializeShopItems();
 
+        if (hpSlider != null && player != null)
+        {
+            hpSlider.minValue = 0;
+            hpSlider.maxValue = player.maxHP;  
+            hpSlider.value = player.curHP;  
+        }
+
         UpdateGoldUI();
+        UpdatePlayerHPUI();
     }
 
     private void OnEnable()
@@ -78,6 +90,7 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         UpdateGoldUI();
+        UpdatePlayerHPUI();
     }
 
 
@@ -112,13 +125,11 @@ public class UIManager : MonoBehaviour
         if (ShopManager.Instance == null) return;
         Debug.Log("상점 초기화");
 
-        // 기존 슬롯 제거
         foreach (Transform child in shopItemContainer)
         {
             Destroy(child.gameObject);
         }
 
-        // 상점 아이템 슬롯 생성
         foreach (var item in ShopManager.Instance.ShopItems)
         {
             GameObject slotObj = Instantiate(shopItemSlotPrefab, shopItemContainer);
@@ -187,5 +198,20 @@ public class UIManager : MonoBehaviour
     public void StageUIUpdate()
     {
         stageText.text = $"Stage: {StageManager.Instance.CurrentStageNumber}";
+    }
+
+    public void UpdatePlayerHPUI()
+    {
+        if (player == null) return;
+
+        if (hpSlider != null)
+        {
+            hpSlider.value = player.curHP;  
+        }
+
+        if (hpText != null)
+        {
+            hpText.text = $"{player.curHP}/{player.maxHP}";
+        }
     }
 }
