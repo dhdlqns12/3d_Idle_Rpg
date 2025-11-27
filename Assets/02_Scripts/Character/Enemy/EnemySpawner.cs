@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Spawn Point Markers")]
+    [Header("Spawn Point Debug")]
     [SerializeField] private bool showSpawnPointGizmos = true;
 
     private StageSO currentStage;
@@ -12,6 +12,7 @@ public class EnemySpawner : MonoBehaviour
 
     private int remainingSpawnCount = 0;
     private bool isSpawning = false;
+    private int currentSpawnID = 0;
 
     public int RemainingSpawnCount => remainingSpawnCount;
     public int ActiveEnemyCount => activeEnemies.Count;
@@ -30,13 +31,21 @@ public class EnemySpawner : MonoBehaviour
 
         remainingSpawnCount = CalculateTotalEnemyCount();
 
-        Debug.Log($"{currentStage.StageName} 시작! (생성할 적: {remainingSpawnCount}마리)");
+        Debug.Log($"{currentStage.StageName} 시작 (생성할 적: {remainingSpawnCount}마리)");
 
-        StartCoroutine(SpawnRoutine());
+        StartCoroutine(SpawnRoutine(currentSpawnID));
     }
 
     public void ClearAllEnemies()
     {
+        currentSpawnID++;
+        Debug.Log($"EnemySpawner> 스폰 세션 ID: {currentSpawnID} (이전 스폰 무효화)");
+
+        StopAllCoroutines();
+        int removedCount = 0;
+
+        Debug.Log(">EnemySpawner 모든 코루틴 중단");
+
         foreach (GameObject enemy in activeEnemies)
         {
             if (enemy != null)
@@ -47,6 +56,8 @@ public class EnemySpawner : MonoBehaviour
 
         activeEnemies.Clear();
 
+        isSpawning = false;
+        remainingSpawnCount = 0;
         Debug.Log(">Spawner: 모든 적 제거 완료");
     }
 
@@ -60,33 +71,46 @@ public class EnemySpawner : MonoBehaviour
         return total;
     }
 
-    private IEnumerator SpawnRoutine()
+    private IEnumerator SpawnRoutine(int sessionID)
     {
         isSpawning = true;
 
         for (int i = 0; i < currentStage.SpawnPoints.Length; i++)
         {
-            StartCoroutine(SpawnAtPoint(i, currentStage.SpawnPoints[i]));
+            StartCoroutine(SpawnAtPoint(i, currentStage.SpawnPoints[i], sessionID));
         }
 
         while (remainingSpawnCount > 0)
         {
+            if (sessionID != currentSpawnID)
+            {
+                yield break;
+            }
+
             yield return new WaitForSeconds(0.5f);
         }
 
-        Debug.Log("모든 적 스폰 완료! 남은 스폰: 0");
 
-        yield return StartCoroutine(WaitForAllEnemiesDead());
+        yield return StartCoroutine(WaitForAllEnemiesDead(sessionID));
 
-        OnStageClear();
+        if (sessionID != currentSpawnID)
+        {
+            yield break;
+        }
 
         isSpawning = false;
+        OnStageClear();
     }
 
-    private IEnumerator SpawnAtPoint(int pointIndex, SpawnPointData pointData)
+    private IEnumerator SpawnAtPoint(int pointIndex, SpawnPointData pointData, int sessionID)
     {
         for (int i = 0; i < pointData.enemyCount; i++)
         {
+            if (sessionID != currentSpawnID)
+            {
+                yield break;
+            }
+
             GameObject enemy = Instantiate(
                 currentStage.EnemyPrefab,
                 pointData.position,
@@ -97,18 +121,19 @@ public class EnemySpawner : MonoBehaviour
 
             remainingSpawnCount--;
 
-            Debug.Log($">SpawnPoint {pointIndex}] 적 생성 ({i + 1}/{pointData.enemyCount}) | 남은 스폰: {remainingSpawnCount}");
-
             yield return new WaitForSeconds(pointData.spawnInterval);
         }
-
-        Debug.Log($">SpawnPoint {pointIndex} 스폰 완료!");
     }
 
-    private IEnumerator WaitForAllEnemiesDead()
+    private IEnumerator WaitForAllEnemiesDead(int sessionID)
     {
         while (true)
         {
+            if (sessionID != currentSpawnID)
+            {
+                yield break;
+            }
+
             activeEnemies.RemoveAll(enemy => enemy == null || !enemy.activeSelf);
 
             if (activeEnemies.Count == 0)
@@ -116,16 +141,12 @@ public class EnemySpawner : MonoBehaviour
                 break;
             }
 
-            Debug.Log($"남은 적: {activeEnemies.Count}, 남은 스폰: {remainingSpawnCount}");
-
             yield return new WaitForSeconds(1f);
         }
     }
 
     private void OnStageClear()
     {
-        Debug.Log($"스테이지 클리어! (남은 스폰: {remainingSpawnCount}, 남은 적: {activeEnemies.Count})");
-
         if (StageManager.Instance != null)
         {
             StageManager.Instance.OnStageClear();

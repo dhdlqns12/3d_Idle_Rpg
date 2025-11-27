@@ -34,7 +34,7 @@ public class PlayerAttackState : PlayerBaseState
         }
 
         attackTimer += Time.deltaTime;
-        float attackSpd = 1f / stateMachine.TotalAtkSpd;
+        float attackSpd = 1f / stateMachine.Player.GetBuffedAttackSpeed();
 
         if (attackTimer >= attackSpd)
         {
@@ -78,7 +78,7 @@ public class PlayerAttackState : PlayerBaseState
         {
             Vector3 direction = (target.position - stateMachine.Player.fireTransform.position).normalized;
 
-            float curDamage = stateMachine.TotalAtk;
+            float curDamage = stateMachine.Player.GetBuffedAttack();
 
             bullet.Init(stateMachine.Player.fireTransform.position, direction, curDamage, typeof(Player));
 

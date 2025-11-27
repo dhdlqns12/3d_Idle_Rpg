@@ -141,7 +141,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        // GameManager.Instance.AddGold(data.GoldReward);
+        GameManager.Instance.AddGold(Data.GoldReward);
         Destroy(gameObject);
     }
 }

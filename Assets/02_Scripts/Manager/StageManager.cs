@@ -20,7 +20,7 @@ public class StageManager : MonoBehaviour
     public StageSO CurrentStage => stages[currentStageIndex];
     public int CurrentStageNumber => currentStageIndex + 1;
     public EnemySpawner Spawner => spawner;
-
+    public int TotalStageCount => stages.Length;
 
     private void Awake()
     {
@@ -64,54 +64,50 @@ public class StageManager : MonoBehaviour
 
     public void LoadStage(int stageIndex)
     {
+        Debug.Log($"[StageManager] LoadStage 호출: stageIndex={stageIndex}");
+
         if (stageIndex < 0 || stageIndex >= stages.Length)
         {
-            Debug.LogError($"존재하지 않는 스테이지: {stageIndex + 1}");
+            Debug.LogError($"[StageManager] 존재하지 않는 스테이지: {stageIndex + 1}");
             return;
         }
 
         if (!stageDataList[stageIndex].isUnlocked)
         {
-            Debug.LogWarning($"스테이지 {stageIndex + 1}은(는) 아직 잠겨있습니다!");
+            Debug.LogWarning($"[StageManager] 스테이지 {stageIndex + 1}은(는) 아직 잠겨있습니다!");
             return;
         }
 
         currentStageIndex = stageIndex;
 
+        Debug.Log($"[StageManager] 스테이지 전환: {CurrentStageNumber}");
+
         spawner.ClearAllEnemies();
 
         spawner.StartStage(stages[currentStageIndex]);
 
-        //if (stageUI != null)
-        //{
-        //    stageUI.UpdateUI();
-        //}
-
-        Debug.Log($"스테이지 {CurrentStageNumber} 로드");
+        Debug.Log($"➡️ 스테이지 {CurrentStageNumber} 로드 완료");
     }
+
 
     public void OnStageClear()
     {
-        Debug.Log($"스테이지 {CurrentStageNumber} 클리어");
+        Debug.Log($"🎉 [StageManager] OnStageClear 호출! 현재 스테이지: {CurrentStageNumber}");
 
-        // 클리어 처리
         stageDataList[currentStageIndex].isCleared = true;
 
-        // 다음 스테이지 해금
         if (currentStageIndex + 1 < stages.Length)
         {
             stageDataList[currentStageIndex + 1].isUnlocked = true;
-            Debug.Log($"스테이지 {currentStageIndex + 2} 해금");
+            Debug.Log($"🔓 [StageManager] 스테이지 {currentStageIndex + 2} 해금!");
+
+            // ✅ 추가: 자동으로 다음 스테이지로 넘어가기
+            NextStage();
         }
         else
         {
-            Debug.Log("모든 스테이지 클리어!");
+            Debug.Log("🎊 [StageManager] 모든 스테이지 클리어!");
         }
-
-        //if (stageUI != null)
-        //{
-        //    stageUI.UpdateUI();
-        //}
     }
 
     public void NextStage()
@@ -128,6 +124,8 @@ public class StageManager : MonoBehaviour
 
     public void SelectStage(int stageNumber)
     {
+        Debug.Log($"[StageManager] SelectStage 호출: stageNumber={stageNumber}");
+
         int stageIndex = stageNumber - 1;
         LoadStage(stageIndex);
     }
